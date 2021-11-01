@@ -34,21 +34,17 @@ def rotation_apsidal_line(i, a, ecc):  # Calculate domega / dt
     return rp * (180 / np.pi) * 86400  # Convert to [°/d]
 
 
-def plot_rot_nodal_line(inc, alt, ecc, color):
+def plot_rot_nodal_line(inc, alt, ecc):
     fig, ax = plt.subplots()
     for j in range(0, 5):
-        ax.plot(inc, rotation_nodal_line(inc, alt[j], ecc[j]), '-',
-                color=color[j],
-                label='h = {} km'.format(int(alt[j])))
+        ax.plot(inc, rotation_nodal_line(inc, alt[j], ecc[j]), '-', label='h = {} km'.format(int(alt[j])))
     ax.legend()
 
 
-def plot_rot_apsidal_line(inc, sma, h, ecc, color):
+def plot_rot_apsidal_line(inc, sma, h, ecc):
     fig, ax = plt.subplots()
     for j in range(0, 5):
-        ax.plot(inc, rotation_apsidal_line(inc, sma[j], ecc[j]), '-',
-                color=color[j],
-                label='ha = {} km'.format(int(h[j])))
+        ax.plot(inc, rotation_apsidal_line(inc, sma[j], ecc[j]), '-', label='ha = {} km'.format(int(h[j])))
     ax.legend()
 
 
@@ -66,13 +62,13 @@ color_list = ['violet', 'cornflowerblue', 'darkturquoise', 'orange', 'crimson'] 
 
 inc_range = np.arange(0, 180, 1)  # Range of inclinations in [°]
 
-plot_rot_nodal_line(inc_range, h_list, ecc0_list, color_list)
+plot_rot_nodal_line(inc_range, h_list, ecc0_list)
 plt.grid()
 plt.xlabel("Inclination [°]")
 plt.ylabel("Rotation of nodal line [°/d]")
 plt.show()
 
-plot_rot_apsidal_line(inc_range, sma_list, ha_list, ecc_list, color_list)
+plot_rot_apsidal_line(inc_range, sma_list, ha_list, ecc_list)
 plt.grid()
 plt.xlabel("Inclination [°]")
 plt.ylabel("Rotation of apsidal line [°/d]")
