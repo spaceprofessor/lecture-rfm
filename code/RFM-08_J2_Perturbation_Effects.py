@@ -29,14 +29,14 @@ class Orbit:
         self.a = r
         self.rp = r
         self.ra = r
-        self.n = np.sqrt(e.mu / np.power(r, 3))
+        self.n = (e.mu / r**3)**0.5
 
     def set_elliptic_orbit(self, hp, ha):
         self.rp = e.R + hp
         self.ra = e.R + ha
         self.a = (self.rp + self.ra) / 2
         self.ecc = 1 - self.rp / self.a
-        self.n = np.sqrt(e.mu / np.power(self.a, 3))
+        self.n = (e.mu / self.a**3)**0.5
 
 
 def to_deg_per_day(angle):  # Converts from [rad/s] to [°/d]
@@ -44,7 +44,7 @@ def to_deg_per_day(angle):  # Converts from [rad/s] to [°/d]
 
 
 def calculate_prefactor(orb):  # Calculates prefactor in [°/d]
-    pref = -3 * orb.n * e.J2 * np.power(e.R, 2) / (2 * np.power(orb.a, 2) * np.power(1 - np.power(orb.ecc, 2), 2))
+    pref = -3 * orb.n * e.J2 * e.R**2 / (2 * orb.a**2 * (1 - orb.ecc**2)**2)
     return to_deg_per_day(pref)
 
 
@@ -53,7 +53,7 @@ def rotation_nodal_line(i, orb):  # Calculates dOmega / dt in [°/d]
 
 
 def rotation_apsidal_line(i, orb):  # Calculates domega / dt in [°/d]
-    return calculate_prefactor(orb) * (5/2 * np.power(np.sin(np.deg2rad(i)), 2) - 2)
+    return calculate_prefactor(orb) * (5/2 * np.sin(np.deg2rad(i))**2 - 2)
 
 
 def plot_rot_nodal_line(inc, orb):
